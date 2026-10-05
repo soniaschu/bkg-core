@@ -1,0 +1,55 @@
+{
+  "name": "@bkg/goal-builder-opencode",
+  "version": "0.1.0",
+  "description": "BKG Goal Builder - OpenCode plugin for goal creation and management",
+  "author": "BKG",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkg/bkg-extensions.git",
+    "directory": "apps/goal-builder-opencode"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js",
+      "default": "./dist/server.js"
+    }
+  },
+  "files": [
+    "dist",
+    "commands",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist && cp commands/*.md dist/ 2>/dev/null || true && bun build src/index.ts --outfile dist/index.js --target node && bun build src/server.ts --outfile dist/server.js --target node --external @opencode-ai/plugin",
+    "dev": "bun run build --watch",
+    "test": "bun test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "bun run build"
+  },
+  "dependencies": {
+    "@bkg/goal-builder": "workspace:*",
+    "@opencode-ai/plugin": "^1.18.23",
+    "@opencode-ai/sdk": "^1.18.23"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "bun-types": "^1.1.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  }
+}

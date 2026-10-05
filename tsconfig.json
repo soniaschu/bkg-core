@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@bkg/*": ["packages/*/src"],
+      "@bkg/plan-engine-*": ["packages/plan-engine-*/src"],
+      "@bkg/goal-*": ["packages/goal-*/src"],
+      "@plannotator/shared": ["packages/plannotator-shared/src"],
+      "@plannotator/shared/*": ["packages/plannotator-shared/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".turbo"]
+}

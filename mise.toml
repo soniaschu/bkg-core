@@ -1,0 +1,96 @@
+[env]
+BUN = "bun"
+NODE_ENV = "development"
+
+[tasks]
+# Development
+dev = "echo 'Use specific package dev tasks'"
+
+# Build
+build = "bun run build:packages && bun run build:apps"
+build:packages = "for pkg in packages/*; do if [ -f \"$pkg/package.json\" ]; then echo \"Building $pkg...\"; bun run --cwd \"$pkg\" build; fi; done"
+build:apps = "for app in apps/*; do if [ -f \"$app/package.json\" ]; then echo \"Building $app...\"; bun run --cwd \"$app\" build; fi; done"
+build:all = "bun run build"
+
+# Test
+test = "bun test"
+test:all = "bun test --coverage"
+test:packages = "for pkg in packages/*; do if [ -f \"$pkg/package.json\" ]; then bun test --cwd \"$pkg\"; fi; done"
+test:apps = "for app in apps/*; do if [ -f \"$app/package.json\" ]; then bun test --cwd \"$app\"; fi; done"
+
+# Linting
+lint = "biome check ."
+lint:fix = "biome check --write ."
+format = "biome format --write ."
+
+# Type checking
+typecheck = "tsc --noEmit"
+
+# Clean
+clean = "rm -rf packages/*/dist apps/*/dist node_modules/.cache"
+
+# Release
+prepare = "bun run build && bun run test && bun run lint"
+publish = "echo 'Publish via release-please on merge to main'"
+version = "echo 'Version managed by release-please'"
+
+# Individual package tasks (run from package directory)
+# Example: mise run -C packages/plan-engine-core build
+
+[tasks.plan-engine-core]
+dev = "bun run dev"
+build = "bun build src/index.ts --outdir dist --target node"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.plan-engine-shared]
+dev = "bun run dev"
+build = "bun build src/index.ts --outdir dist --target node"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.plan-engine-server]
+dev = "bun run dev"
+build = "bun build src/index.ts --outdir dist --target node"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.plan-engine-ui]
+dev = "bun run dev"
+build = "bun run build:css && bun build src/index.ts --outdir dist --target node"
+build:css = "echo 'CSS build step'"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.goal-builder]
+dev = "bun run dev"
+build = "bun build src/index.ts --outdir dist --target node"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.goal-orchestrator]
+dev = "bun run dev"
+build = "bun build src/index.ts --outdir dist --target node"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.bkg-plan-engine-opencode]
+dev = "bun run dev"
+build = "bun run build:plugin"
+build:plugin = "mkdir -p dist && cp commands/*.md dist/ 2>/dev/null || true && bun build src/index.ts --outfile dist/index.js --target node && bun build src/server.ts --outfile dist/server.js --target node --external @opencode-ai/plugin"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.bkg-agent-superpowers-opencode]
+dev = "bun run dev"
+build = "bun run build:plugin"
+build:plugin = "mkdir -p dist && cp -r skills dist/ 2>/dev/null || true && bun build src/index.ts --outfile dist/index.js --target node"
+test = "bun test"
+lint = "biome check ."
+
+[tasks.bkg-goal-orchestrator-opencode]
+dev = "bun run dev"
+build = "bun run build:plugin"
+build:plugin = "mkdir -p dist && cp commands/*.md dist/ 2>/dev/null || true && bun build src/index.ts --outfile dist/index.js --target node"
+test = "bun test"
+lint = "biome check ."

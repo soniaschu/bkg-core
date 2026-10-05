@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@plannotator/webtui": "0.1.0"
+  }
+}

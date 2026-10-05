@@ -1,0 +1,52 @@
+{
+  "name": "@bkg/goal-orchestrator",
+  "version": "0.1.0",
+  "description": "BKG Goal Orchestrator - Dynamically compose agent teams, generate plans, visualize, and execute goals",
+  "author": "BKG",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkg/bkg-extensions.git",
+    "directory": "packages/goal-orchestrator"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "dev": "bun run build --watch",
+    "test": "bun test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@bkg/goal-builder": "workspace:*",
+    "@bkg/plan-engine-core": "workspace:*",
+    "@bkg/plan-engine-shared": "workspace:*",
+    "@bkg/plan-engine-server": "workspace:*",
+    "@bkg/plan-engine-ui": "workspace:*",
+    "@opencode-ai/sdk": "^1.3.0",
+    "@opencode-ai/plugin": "0.0.0-next-16775"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "bun-types": "^1.1.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@bkg/team-opencode",
+  "version": "0.1.0",
+  "description": "BKG Team - debate consensus, brain persistence, dashboard, safe git, research and supervision tools",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": { ".": { "import": "./dist/index.js", "default": "./dist/index.js" } },
+  "scripts": {
+    "build": "mkdir -p dist && cp commands/*.md dist/ && bun build src/index.ts --outfile dist/index.js --target node --external @opencode-ai/plugin",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.18.23",
+    "zod": "4.1.8"
+  }
+}
