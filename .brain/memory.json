@@ -1,0 +1,37 @@
+{
+  "knownIssues": [
+    {
+      "area": "packages/plan-engine-server",
+      "issue": "Large number of pre-existing test failures from bun API drift against the pinned bun@1.1.0 (for example 'store.onMutation is not a function')",
+      "baseline": "bkg-extension-system: 208 pass / 241 fail / 7 errors. bkg-core: 219 pass / 241 fail / 7 errors before the bkg-team test was added.",
+      "notCausedBy": "these merges; no new failures were introduced",
+      "status": "open, not triaged"
+    },
+    {
+      "area": "bkg-extension-system remote",
+      "issue": "origin https://github.com/1bitshit/bkg-oc-plugin.git rejects the available token",
+      "workaround": "pushed to soniaschu/bkg-extension-system instead; origin left in place",
+      "status": "open"
+    },
+    {
+      "area": "opencode configuration",
+      "issue": "opencode.json and opencode.jsonc coexist; precedence when both define the same key is not established",
+      "status": "open, deliberately not guessed"
+    },
+    {
+      "area": "key store permissions",
+      "issue": "/srv/bkg/privat and its api-keys subdirectories are mode 775, so other local users can list key filenames",
+      "status": "files tightened to 600; directories left at 775 to avoid breaking dependent services"
+    },
+    {
+      "area": "bkg-team build",
+      "issue": "pre-existing TS2339 'Property BUILD_TAG does not exist on type Plugin'",
+      "status": "does not block the build, not fixed"
+    }
+  ],
+  "reproduction": {
+    "eisdir": "bkg-plugins/bkg-labertasche/vendor/codex-plugin-cc/.github/workflows is a directory matched by findConfigFiles",
+    "favicon": "atob() DOMException at packages/plan-engine-server bundle line ~2743 under Bun; fixed by the single-character base64 correction",
+    "teamCommands": "loadCommands() called bare join() -> ReferenceError -> swallowed by catch -> 0 commands registered"
+  }
+}

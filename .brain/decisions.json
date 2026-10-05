@@ -1,0 +1,39 @@
+{
+  "decisions": [
+    {
+      "id": "D1",
+      "date": "2026-10-05",
+      "decision": "bkg-core is the authoritative buildable tree; bkg-extension-system remains the canonical source for the libraries",
+      "rationale": "bkg-extension-system/apps/* are older wrappers of the same plugins. Merging the tool-registering wrappers with packages/* into one workspace makes the dangling node_modules/@bkg/* symlinks resolve, so a real build path exists. The runtime dist was hand-copied and was weeks behind the source.",
+      "consequence": "The three plugin defects were only discoverable by building, because nothing in the old layout was buildable."
+    },
+    {
+      "id": "D2",
+      "date": "2026-10-05",
+      "decision": "bkg-plan-engine builds with --target bun",
+      "rationale": "packages/plan-engine-server imports bun builtins (import { $ } from 'bun'). OpenCode executes plugins on Bun.",
+      "consequence": "The bundle is not Node-compatible. That is acceptable given the host runtime, but it is a hard coupling worth recording."
+    },
+    {
+      "id": "D3",
+      "date": "2026-10-05",
+      "decision": "Plugins wrapped loadCommands in try/catch that returned undefined",
+      "rationale": "This hid the bkg-team ReferenceError entirely: the plugin loaded, reported no error, and registered zero commands. Six slash commands were silently unavailable.",
+      "consequence": "Silent capability loss in every plugin. Worth treating registration failures as observable rather than swallowed."
+    },
+    {
+      "id": "D4",
+      "date": "2026-10-05",
+      "decision": "Do not delete plugins/bkg-oc-plugin despite the size",
+      "rationale": "It is a distinct snapshot (429 MB, 423 MB of it node_modules), not a byte-identical duplicate. Deleting it would have removed a rollback path with no evidence that it is redundant.",
+      "consequence": "Disk is not reclaimed. Reclaim only after confirming nothing depends on it."
+    },
+    {
+      "id": "D5",
+      "date": "2026-10-05",
+      "decision": "Add soniaschu as a second remote for web-mcp rather than replacing origin",
+      "rationale": "origin points at AgriciDaniel/web-mcp and is reachable. Repointing it would have silently severed the upstream relationship.",
+      "consequence": "Both remotes exist; `git push` with no args now targets soniaschu because that branch tracks it. Push to a named remote until this is revisited."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "bkg-core",
+  "description": "BKG core plugins for OpenCode: goal builder, goal orchestrator, plan engine and team, merged into one buildable bun workspace.",
+  "repository": "https://github.com/soniaschu/bkg-core",
+  "canonicalSource": "https://github.com/soniaschu/bkg-extension-system",
+  "layout": {
+    "packages": "8 libraries holding the real behaviour",
+    "plugins": "4 thin OpenCode wrappers registering tools and loading commands/*.md"
+  },
+  "build": {
+    "runtime": "bun",
+    "install": "bun install --ignore-scripts (node-pty gyp fails on this host)",
+    "command": "bun run build",
+    "targets": {
+      "bkg-plan-engine": "bun (packages/plan-engine-server imports bun builtins)",
+      "others": "node"
+    }
+  },
+  "updated": "2026-10-05"
+}

@@ -1,0 +1,69 @@
+{
+  "tasks": [
+    {
+      "id": "BKG-2026-10-05-merge-plugins",
+      "title": "Merge four BKG core plugins into one buildable workspace",
+      "owner": "big-pickle (opencode/big-pickle)",
+      "status": "done",
+      "scope": [
+        "merge packages/* + plugins/* into bkg-core workspace",
+        "fix EISDIR crash in project-analyzer",
+        "restore dropped architecturePatterns",
+        "repair corrupted favicon base64",
+        "fix bkg-team bare join() ReferenceError",
+        "add commands/*.md to bkg-team build",
+        "regression tests",
+        "publish repos under soniaschu"
+      ],
+      "verification": {
+        "newTests": "23/23 pass in isolation",
+        "mutationTests": "each fix verified to fail when reverted (EISDIR 5 fail, architecturePatterns 3 fail, joinPath 1 fail), then restored green",
+        "build": "bun run build exit 0 for 8 packages + 4 plugins",
+        "runtimeTools": "27 tools / 26 commands registered",
+        "bkg-teamCommands": "0 -> 6",
+        "remoteVerified": "git ls-remote matches local HEAD for all 5 repos"
+      },
+      "changedFiles": [
+        "packages/goal-builder/src/core/project-analyzer.ts",
+        "packages/goal-builder/src/core/project-analyzer.test.ts",
+        "packages/plannotator-shared/src/favicon.ts",
+        "packages/plannotator-shared/src/favicon.test.ts",
+        "plugins/bkg-team/src/index.ts",
+        "plugins/bkg-team/src/index.test.ts",
+        "plugins/bkg-team/package.json",
+        "plugins/bkg-plan-engine/package.json"
+      ]
+    },
+    {
+      "id": "BKG-2026-10-05-secrets",
+      "title": "Move plaintext provider API keys out of opencode.json",
+      "owner": "big-pickle (opencode/big-pickle)",
+      "status": "done",
+      "scope": [
+        "migrate plaintext apiKey values to {file:...} references",
+        "restrict key file permissions to 600",
+        "gitignore .env and tts.zip in bkg-extension-system"
+      ],
+      "verification": {
+        "plaintextKeysRemaining": 0,
+        "providers": "minimax, nvidia, nvidia-muse all file references",
+        "roundtrip": "key bytes written equal key length, identical on read-back",
+        "modes": "all 5 key files 600"
+      },
+      "notes": "tts/.env holds a real TTS_API_KEY and was not gitignored in bkg-extension-system; caught before staging. tts/.env.example had been deleted from the working tree and was restored."
+    },
+    {
+      "id": "BKG-2026-10-05-repos",
+      "title": "Publish standalone repos under soniaschu",
+      "owner": "big-pickle (opencode/big-pickle)",
+      "status": "done",
+      "repos": [
+        { "name": "soniaschu/bkg-core", "commits": 1, "branch": "main", "localMatchesRemote": true },
+        { "name": "soniaschu/bkg-labertasche", "commits": 8, "branch": "master", "localMatchesRemote": true },
+        { "name": "soniaschu/bkg-shout", "commits": 1, "branch": "master", "localMatchesRemote": true },
+        { "name": "soniaschu/web-mcp", "commits": 6, "branch": "main", "localMatchesRemote": true, "note": "added as second remote; AgriciDaniel origin left untouched" },
+        { "name": "soniaschu/bkg-extension-system", "commits": 10, "branch": "main", "localMatchesRemote": true, "note": "canonical source; its 1bitshit origin has an invalid token" }
+      ]
+    }
+  ]
+}
